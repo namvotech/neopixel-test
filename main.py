@@ -1,49 +1,75 @@
+index = 0
 blue = 0
 green = 0
 red = 0
 mode = 0
+basic.show_icon(IconNames.HEART)
+index2 = 3
 led2 = -11
-strip = neopixel.create(DigitalPin.P16, 17, NeoPixelMode.RGB)
-strip.set_brightness(10)
+strip = neopixel.create(DigitalPin.P3, 12, NeoPixelMode.RGB)
+strip.set_brightness(100)
 strip.show_color(neopixel.colors(NeoPixelColors.RED))
-basic.pause(1000)
+basic.pause(500)
+strip.show_color(neopixel.colors(NeoPixelColors.ORANGE))
+basic.pause(500)
+strip.show_color(neopixel.colors(NeoPixelColors.YELLOW))
+basic.pause(500)
+strip.show_color(neopixel.colors(NeoPixelColors.RED))
+basic.pause(500)
+strip.show_color(neopixel.colors(NeoPixelColors.ORANGE))
+basic.pause(500)
+strip.show_color(neopixel.colors(NeoPixelColors.YELLOW))
+basic.pause(500)
 strip.clear()
 
 def on_forever():
-    global red, green, blue, led2, mode
+    global red, green, blue, led2, index, mode, index2
     if mode == 0:
         red = 255
         green = 0
         blue = 0
     elif mode == 1:
-        red = 255
+        red = 0
         green = 255
-        blue = 255
+        blue = 0
     elif mode == 2:
-        red = 255
-        green = 255
+        red = 0
+        green = 0
         blue = 255
     elif mode == 3:
         red = 255
         green = 255
-        blue = 255
+        blue = 0
     elif mode == 4:
-        pass
+        red = 255
+        green = 0
+        blue = 255
     elif mode == 5:
-        pass
+        red = 0
+        green = 255
+        blue = 255
     elif mode == 6:
-        pass
+        red = 255
+        green = 255
+        blue = 255
     else:
-        pass
+        red = 0
+        green = 0
+        blue = 0
     led2 += 1
-    for index in range(11):
-        strip.set_pixel_color(led2 + index, neopixel.rgb(0, 255, 255))
+    index += 1
+    index3 = 0
+    while index3 <= index2:
+        strip.set_pixel_color(led2 + index3, neopixel.rgb(red, green, blue))
+        index3 += 1
     strip.show()
-    if led2 >= 17:
+    strip.clear()
+    if led2 >= 12:
         led2 = -11
         mode += 1
         if mode >= 7:
+            index2 += 10
             mode = 0
-        strip.clear()
-    strip.clear()
+            if index2 >= 30:
+                index2 = 2
 basic.forever(on_forever)

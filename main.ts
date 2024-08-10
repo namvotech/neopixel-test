@@ -1,20 +1,15 @@
-let index2 = 0
-let index = 0
+let mode2 = false
 let blue = 0
 let green = 0
 let red = 0
 let mode = 0
+basic.showIcon(IconNames.Heart)
+let index2 = 3
 let led2 = -11
 let strip = neopixel.create(DigitalPin.P3, 12, NeoPixelMode.RGB)
-let strip2 = neopixel.create(DigitalPin.P16, 186, NeoPixelMode.RGB)
 strip.setBrightness(100)
 strip.showColor(neopixel.colors(NeoPixelColors.Red))
-strip2.setBrightness(100)
-strip2.showColor(neopixel.colors(NeoPixelColors.Green))
-basic.pause(500)
-strip.clear()
-strip2.clear()
-basic.showIcon(IconNames.Heart)
+basic.pause(1000)
 basic.forever(function () {
     if (mode == 0) {
         red = 255
@@ -50,27 +45,26 @@ basic.forever(function () {
         blue = 0
     }
     led2 += 1
-    index += 1
-    for (let index = 0; index <= 10; index++) {
-        strip.setPixelColor(led2 + index, neopixel.rgb(red, green, blue))
+    if (mode2) {
+        strip.showRainbow(1, 1000)
+        strip.show()
+    } else {
+        for (let index = 0; index <= index2; index++) {
+            strip.setPixelColor(led2 + index, neopixel.rgb(red, green, blue))
+        }
+        strip.show()
+        strip.clear()
     }
-    strip.show()
     if (led2 >= 12) {
         led2 = -11
         mode += 1
         if (mode >= 7) {
+            index2 += 10
             mode = 0
+            if (index2 >= 30) {
+                index2 = 2
+                mode2 = Math.randomBoolean()
+            }
         }
-        strip.clear()
-    }
-    strip.clear()
-})
-basic.forever(function () {
-    index2 += 1
-    strip2.showRainbow(index2, index2 + 1000)
-    strip2.show()
-    if (index2 >= 5000) {
-        index2 = 0
-        strip2.clear()
     }
 })
